@@ -1,6 +1,9 @@
 package com.ddd.product.management.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,15 +17,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull(message = "Product name is required")
     private String name;
 
     private String description;
 
-    @Column(nullable = false)
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.01", message = "Price must be positive")
     private BigDecimal price;
 
-    @Column(nullable = false)
+    @Min(value = 0, message = "Stock quantity must be a non-negative integer")
     private int stockQuantity;
 
     @ManyToOne

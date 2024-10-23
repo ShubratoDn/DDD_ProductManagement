@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.ddd.product.management.application.ProductService;
 import com.ddd.product.management.domain.model.Product;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -17,7 +19,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@Valid @RequestBody Product product) {
         return productService.createProduct(product);
     }
 
@@ -32,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@RequestBody Product product, @PathVariable Long id) {
+    public Product updateProduct(@Valid @RequestBody Product product, @PathVariable Long id) {
         product.setId(id);
         return productService.updateProduct(product);
     }
