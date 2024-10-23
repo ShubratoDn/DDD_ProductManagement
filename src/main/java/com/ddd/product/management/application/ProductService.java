@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.ddd.product.management.domain.model.Category;
 import com.ddd.product.management.domain.model.Product;
 import com.ddd.product.management.domain.repository.ProductRepository;
+import com.ddd.product.management.web.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id : "+id));
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id : "+id));
     }
 
     public void deleteProduct(Long id) {

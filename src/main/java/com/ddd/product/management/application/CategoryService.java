@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ddd.product.management.domain.model.Category;
 import com.ddd.product.management.domain.repository.CategoryRepository;
+import com.ddd.product.management.web.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found with id "+ id));
     }
 
     public void deleteCategory(Long id) {
