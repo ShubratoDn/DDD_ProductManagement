@@ -2,6 +2,8 @@ package com.ddd.product.management.infrastructure.persistence;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.ddd.product.management.domain.model.Product;
@@ -24,8 +26,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        return jpaProductRepository.findAll();
+    public Page<Product> findAll(Pageable pageable) {
+        Page<Product> all = jpaProductRepository.findAll(pageable);
+        return all;
     }
 
     @Override

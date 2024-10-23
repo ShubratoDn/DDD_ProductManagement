@@ -1,6 +1,8 @@
 package com.ddd.product.management.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ddd.product.management.domain.model.Category;
@@ -20,13 +22,13 @@ public class ProductService {
 	private CategoryService categoryRepository;
 
 	public Product createProduct(Product product) {
-		 // Check if a product with the same name already exists
-        if (productRepository.findByName(product.getName()).size() > 0) {
-            throw new IllegalArgumentException("Product with the same name already exists.");
-        }
+		// Check if a product with the same name already exists
+		if (productRepository.findByName(product.getName()).size() > 0) {
+			throw new IllegalArgumentException("Product with the same name already exists.");
+		}
 
 		Category category = product.getCategory();
-		if(category != null) {
+		if (category != null) {
 			if (category.getId() == null) {
 				category = categoryRepository.createCategory(category);
 				product.setCategory(category);
@@ -40,8 +42,8 @@ public class ProductService {
 		return productRepository.save(product);
 	}
 
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
+	public Page<Product> getAllProducts(Pageable pageable) {
+		return productRepository.findAll(pageable); // Return paginated results
 	}
 
 	public Product getProductById(Long id) {
@@ -54,13 +56,13 @@ public class ProductService {
 	}
 
 	public Product updateProduct(Product product) {
-		
-		   // Ensure name uniqueness for update
-        List<Product> existingProduct = productRepository.findByName(product.getName());
-        if (existingProduct.size() > 0 && !existingProduct.get(0).getId().equals(product.getId())) {
-            throw new IllegalArgumentException("Another product with the same name already exists.");
-        }
-		
+
+		// Ensure name uniqueness for update
+		List<Product> existingProduct = productRepository.findByName(product.getName());
+		if (existingProduct.size() > 0 && !existingProduct.get(0).getId().equals(product.getId())) {
+			throw new IllegalArgumentException("Another product with the same name already exists.");
+		}
+
 		Category category = product.getCategory();
 		if (category.getId() == null) {
 			category = categoryRepository.createCategory(category);
