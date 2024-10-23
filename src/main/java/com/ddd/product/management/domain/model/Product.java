@@ -27,7 +27,7 @@ public class Product {
     private BigDecimal price;
 
     @Min(value = 0, message = "Stock quantity must be a non-negative integer")
-    private int stockQuantity;
+    private Integer stockQuantity;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

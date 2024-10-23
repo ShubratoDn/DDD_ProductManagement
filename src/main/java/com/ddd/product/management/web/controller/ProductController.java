@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ddd.product.management.application.ProductService;
@@ -50,4 +51,16 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
+    
+    @PatchMapping("/{id}/update-stock")
+    public ResponseEntity<?>updateStock(@RequestBody Product product, @PathVariable Long id) {
+    	if(product.getStockQuantity() == null || product.getStockQuantity() < 0) {
+    		return ResponseEntity.badRequest().body("Stock quantity must be a non-negative integer");
+    	}
+        product.setId(id);
+        Product productById = productService.getProductById(id);
+        productById.setStockQuantity(product.getStockQuantity());
+        return ResponseEntity.ok(productService.updateProduct(productById));
+    }
+    
 }

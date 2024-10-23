@@ -162,6 +162,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update stock",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stockQuantity\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/products/1/update-stock",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"1",
+								"update-stock"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
